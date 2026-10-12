@@ -82,7 +82,7 @@ The figure shows a depth-padded Merkle tree with 5 leaves. The underlying data f
 
 ![Tree 5 5 diagram](tree-5-5.svg)
 
-The figure shows a tree with 8 leaves. No padding is needed because the number of leaves is a power of two. The underlying data for leaves 1–5 are disclosed, along with the authentication path hash for node 5:8, allowing the verifier to reconstruct and verify the root.
+The figure shows a tree with 8 leaves. No padding is needed because the number of leaves is a power of two. The underlying data for leaves 1–4 are disclosed, along with the authentication path hash for node 5:8, allowing the verifier to reconstruct and verify the root.
 
 ![Tree 8 4 diagram](tree-8-4.svg)
 
