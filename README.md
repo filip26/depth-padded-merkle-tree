@@ -15,7 +15,7 @@ The tree is binary and balanced, using depth-based padding hashes to handle miss
 
 - Deterministic Construction: Defines consistent leaf hashing, internal-node hashing, and padding rules, ensuring reproducible commitments for the same ordered input.
 - Depth-Dependent Padding: Uses predefined padding hashes associated with tree levels to handle non-power-of-two leaf counts consistently.
-- Efficient Selective Disclosure: Enables verification of disclosed elements using sibling hashes and positional information to reconstruct and verify the Merkle root. Multiple disclosed elements can share common authentication nodes.
+- Efficient Selective Disclosure: Enables verification of disclosed elements using sibling hashes and positional information to reconstruct and verify the Merkle root. Multiple disclosed elements share common authentication nodes.
 
 These properties provide a deterministic and efficient basis for selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
 
