@@ -29,11 +29,11 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 
 ### Root Computation
 
-**Input:** An ordered sequence of `n >= 1` leaf values.
+**Input:** An ordered sequence of `n > 1` leaf values.
 
 **Output:** The Merkle root.
 
-1. Compute the tree depth as `depth = ceil(log2(n))`, with `detph = 0` when `n = 1`.
+1. Compute the tree depth as `depth = ceil(log2(n))`.
 2. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
 3. Set the current `level size` to `n`.
 4. For each `level` from `0` to `depth - 1`:
@@ -50,9 +50,9 @@ The algorithm reuses a single array to store successive tree levels, avoiding th
 
 Let `n` be the number of leaves:
 
-- **Time Complexity:** `O(n)`. The algorithm hashes each leaf once and computes one parent hash per node pair, including pairs completed using padding. The total number of internal-node hashes is `n - 1`.
-- **Space Complexity:** `O(n)`. The algorithm stores leaf hashes in a single array and reuses that array for successive tree levels, avoiding additional arrays proportional to the number of leaves.
-- **Tree Depth:** `O(log n)`. The number of levels processed grows logarithmically with the number of leaves.
+- Time Complexity: `O(n)`. The algorithm hashes each leaf once and computes one parent hash per node pair, including pairs completed using padding. The total number of internal-node hashes is `n - 1`.
+- Space Complexity: `O(n)`. The algorithm stores leaf hashes in a single array and reuses that array for successive tree levels, avoiding additional arrays proportional to the number of leaves.
+- Tree Depth: `O(log n)`. The number of levels processed grows logarithmically with the number of leaves.
 
 These bounds assume fixed-size hash outputs and constant-time hash operations.
 
