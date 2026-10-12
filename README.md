@@ -34,7 +34,7 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 **Output:** The Merkle root.
 
 1. Compute the tree depth as `depth = ceil(log2(n))`, with `detph = 0` when `n = 1`.
-2. Hash each leaf as `H(LEAF_PREFIX || salt || leaf)`, storing the resulting hashes in a single array.
+2. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
 3. Set the current `level size` to `n`.
 4. For each `level` from `0` to `depth - 1`:
    1. Process the current level in adjacent pairs, from left to right.
