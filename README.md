@@ -21,8 +21,29 @@ These properties provide a deterministic and efficient basis for selective discl
 
 The selective disclosure process involves three core algorithms, used by the issuer, the disclosing party, and the verifier:
 
-1. Root Computation: The issuer computes a Merkle root from the complete, ordered set of leaves. The root serves as a commitment to the dataset.
-2. Authentication Path Generation: The disclosing party selects the leaves to reveal and generates their authentication paths. These paths provide the additional hash values and positional information needed to verify the disclosed leaves without revealing the remaining leaves.
-3. Root Reconstruction and Verification: The verifier uses the disclosed leaves and their authentication paths to reconstruct the Merkle root. The disclosed data is accepted as consistent with the original commitment if the reconstructed root matches the trusted root.
+- Root Computation: The issuer computes a Merkle root from the complete, ordered set of leaves. The root serves as a commitment to the dataset.
+- Authentication Path Generation: The disclosing party selects the leaves to reveal and generates their authentication paths. These paths provide the additional hash values and positional information needed to verify the disclosed leaves without revealing the remaining leaves.
+- Root Reconstruction and Verification: The verifier uses the disclosed leaves and their authentication paths to reconstruct the Merkle root. The disclosed data is accepted as consistent with the original commitment if the reconstructed root matches the trusted root.
 
 The algorithms enable the issuer to commit to a dataset, the disclosing party to reveal selected leaves, and the verifier to check them against the original commitment.
+
+Correct. GitHub-flavored Markdown supports inline math only in environments that enable math rendering; for maximum compatibility, use plain-text notation in the specification.
+
+### Root Computation
+
+**Input:** An ordered sequence of `n >= 1` leaf values.
+
+**Output:** The Merkle root.
+
+1. Compute the tree depth as `d = ceil(log2(n))`, with `d = 0` when `n = 1`.
+2. Hash each leaf as `H(LEAF_PREFIX || leaf)`, storing the resulting hashes in a single array.
+3. Set the current `level size` to `n`.
+4. While the current `level size` is greater than one:
+   1. Process the current level in adjacent pairs, from left to right.
+   2. For each pair, compute the parent hash as `H(NODE_PREFIX || left || right)`.
+   3. If the final node has no right sibling, use the predefined padding hash for the current level as its right sibling.
+   4. Store each parent hash in the same array, starting at index zero, `index >>> 1`, and overwriting the entries of the previous level from left to right.
+   5. Update the current `level size` to `ceil(current_level_size / 2)`.
+5. Return the hash at index zero as the Merkle root.
+
+The algorithm reuses a single array to store successive tree levels, avoiding the need to allocate a separate array for each level. It terminates when the current level contains exactly one hash.
