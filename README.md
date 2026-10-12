@@ -4,7 +4,7 @@ A depth-padded Merkle tree is a cryptographic commitment structure for selective
 
 The tree is binary and balanced, using depth-based padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual authentication path are `O(log n)`. Authentication paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
 
-## Core Design Objectives
+## Design Objectives
 
 - Secure Verification: Uses distinct domain-separation prefixes for leaf data, internal nodes, and padding values to distinguish hash inputs by type. Verification recomputes the commitment according to deterministic hashing rules and compares the resulting root with the trusted commitment.
 - Structural Simplicity: Uses deterministic, depth-dependent padding to handle incomplete node pairs according to a fixed construction rule, avoiding ad hoc tree restructuring.
@@ -19,7 +19,7 @@ The tree is binary and balanced, using depth-based padding hashes to handle miss
 
 These properties provide a deterministic and efficient basis for selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
 
-## Algorithmic Scope
+## Algorithms
 
 The selective disclosure process involves three core algorithms, used by the issuer, the disclosing party, and the verifier:
 
