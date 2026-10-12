@@ -82,6 +82,6 @@ The figure shows a tree with 8 leaves. No padding is needed because the number o
 
 ![Tree 8 4 diagram](tree-8-4.svg)
 
-The figure shows a tree with 11 leaves. The underlying data for leaves 1, 2, and 8 are disclosed. The authentication paths include nodes 3:4 and 5:6, leaf 7, and node 9:11, allowing the verifier to reconstruct and verify the root.
+The figure shows a tree with 11 leaves. The underlying data for leaves 1, 2, and 8 are disclosed, while the remaining leaf data stay private. The authentication paths include the hash values for nodes 3:4 and 5:6, leaf 7, and node 9:11, allowing the verifier to reconstruct and verify the root.
 
 ![Tree 11 3 diagram](tree-11-3.svg)
