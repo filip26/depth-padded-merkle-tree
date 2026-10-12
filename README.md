@@ -70,7 +70,18 @@ Here, `bit_length(x)` is the number of bits in the binary representation of `x`.
 
 ## Examples
 
-The figure below shows a depth-padded Merkle tree with five leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the authentication path hashes: leaves 1 and 3, and node 5:5.
+The figure shows a depth-padded Merkle tree with 5 leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the authentication path hashes: leaves 1 and 3, and node 5:5.
 
-![Tree diagram](tree-5-2.svg)
+![Tree 5 2 diagram](tree-5-2.svg)
 
+The figure shows a depth-padded Merkle tree with 5 leaves. The underlying data for all five leaves are disclosed, so no authentication paths are needed to reconstruct the root.
+
+![Tree 5 5 diagram](tree-5-5.svg)
+
+The figure shows a tree with 8 leaves. No padding is needed because the number of leaves is a power of two. The underlying data for leaves 1–5 are disclosed, along with the authentication path hash for node 5:8, allowing the verifier to reconstruct and verify the root.
+
+![Tree 8 4 diagram](tree-8-4.svg)
+
+The figure shows a tree with 11 leaves. The underlying data for leaves 1, 2, and 8 are disclosed. The authentication paths include nodes 3:4 and 5:6, leaf 7, and node 9:11, allowing the verifier to reconstruct and verify the root.
+
+![Tree 11 3 diagram](tree-11-3.svg)
