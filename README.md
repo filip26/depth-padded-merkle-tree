@@ -35,15 +35,15 @@ Correct. GitHub-flavored Markdown supports inline math only in environments that
 
 **Output:** The Merkle root.
 
-1. Compute the tree depth as `d = ceil(log2(n))`, with `d = 0` when `n = 1`.
+1. Compute the tree depth as `depth = ceil(log2(n))`, with `detph = 0` when `n = 1`.
 2. Hash each leaf as `H(LEAF_PREFIX || leaf)`, storing the resulting hashes in a single array.
 3. Set the current `level size` to `n`.
-4. While the current `level size` is greater than one:
+4. For each `level` from `0` to `depth - 1`:
    1. Process the current level in adjacent pairs, from left to right.
    2. For each pair, compute the parent hash as `H(NODE_PREFIX || left || right)`.
    3. If the final node has no right sibling, use the predefined padding hash for the current level as its right sibling.
-   4. Store each parent hash in the same array, starting at index zero, `index >>> 1`, and overwriting the entries of the previous level from left to right.
-   5. Update the current `level size` to `ceil(current_level_size / 2)`.
+   4. Store each parent hash in the same array at index `i >>> 1`, overwriting the entries of the previous level from left to right, where `i` is the index of the left child.
+   5. Update the current `level size` to `ceil(level_size / 2)`.
 5. Return the hash at index zero as the Merkle root.
 
 The algorithm reuses a single array to store successive tree levels, avoiding the need to allocate a separate array for each level. It terminates when the current level contains exactly one hash.
