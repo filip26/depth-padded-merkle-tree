@@ -27,8 +27,6 @@ The selective disclosure process involves three core algorithms, used by the iss
 
 The algorithms enable the issuer to commit to a dataset, the disclosing party to reveal selected leaves, and the verifier to check them against the original commitment.
 
-Correct. GitHub-flavored Markdown supports inline math only in environments that enable math rendering; for maximum compatibility, use plain-text notation in the specification.
-
 ### Root Computation
 
 **Input:** An ordered sequence of `n >= 1` leaf values.
