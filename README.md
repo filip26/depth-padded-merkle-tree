@@ -48,13 +48,12 @@ Correct. GitHub-flavored Markdown supports inline math only in environments that
 
 The algorithm reuses a single array to store successive tree levels, avoiding the need to allocate a separate array for each level. It terminates when the current level contains exactly one hash.
 
-#### Computational Complexity
+#### Complexity
 
 Let `n` be the number of leaves and `d = ceil(log2(n))` the tree depth.
 
-- Time complexity: `O(n)`. Leaf hashing processes `n` leaves, and each subsequent level hashes fewer nodes. The total number of internal-node hashes is `n - 1` for a tree with `n` leaves, so the total number of hash operations is linear in `n`.
-- Auxiliary space complexity: `O(1)` beyond the array storing the leaf hashes, which requires `O(n)` space. The same array is reused for every tree level.
-- Total space complexity: `O(n)` for the hash array.
-- Maximum tree depth: `O(log n)`, bounding the number of levels processed.
+- **Time Complexity:** `O(n)`. The algorithm hashes each leaf once and computes one parent hash per node pair, including pairs completed using padding. The total number of internal-node hashes is `n - 1`.
+- **Space Complexity:** `O(n)`. The algorithm stores leaf hashes in a single array and reuses that array for successive tree levels, avoiding additional arrays proportional to the number of leaves.
+- **Tree Depth:** `O(log n)`. The number of levels processed grows logarithmically with the number of leaves.
 
 These bounds assume fixed-size hash outputs and constant-time hash operations.
