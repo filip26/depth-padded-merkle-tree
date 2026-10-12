@@ -34,7 +34,7 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 **Output:** The Merkle root.
 
 1. Compute the tree depth as `depth = ceil(log2(n))`, with `detph = 0` when `n = 1`.
-2. Hash each leaf as `H(LEAF_PREFIX || leaf)`, storing the resulting hashes in a single array.
+2. Hash each leaf as `H(LEAF_PREFIX || salt || leaf)`, storing the resulting hashes in a single array.
 3. Set the current `level size` to `n`.
 4. For each `level` from `0` to `depth - 1`:
    1. Process the current level in adjacent pairs, from left to right.
@@ -67,4 +67,11 @@ The `ceil`, `floor`, and `log2` operations can be implemented using integer arit
 | `ceil(n / 2)`                | `(n + 1) >>> 1` for non-negative integers |
 
 Here, `bit_length(x)` is the number of bits in the binary representation of `x`. e.g. in Java, it can be computed as `32 - Integer.numberOfLeadingZeros(x)` for positive `int` values.
+
+## Examples
+
+The figure below shows a depth-padded Merkle tree with five leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the authentication path hashes: leaves 1 and 3, and node 5:5. Padding hashes at levels 2 and 3 are computed automatically.
+
+![Depth-padded Merkle tree](tree.svg)
+![Tree diagram](tree-5-2.svg)
 
