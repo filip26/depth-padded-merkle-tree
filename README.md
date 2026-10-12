@@ -48,7 +48,7 @@ Correct. GitHub-flavored Markdown supports inline math only in environments that
 
 The algorithm reuses a single array to store successive tree levels, avoiding the need to allocate a separate array for each level. It terminates when the current level contains exactly one hash.
 
-Implementation note: The `ceil`, `floor`, and `log2` operations can be implemented using integer arithmetic and bitwise operations, avoiding floating-point calculations and reducing computational overhead. This also provides exact results for the integer values used in tree construction.
+**Implementation note:** The `ceil`, `floor`, and `log2` operations can be implemented using integer arithmetic and bitwise operations, avoiding floating-point calculations and reducing computational overhead. This also provides exact results for the integer values used in tree construction.
 
 | Operation                    | Integer/bitwise equivalent                |
 | ---------------------------- | ----------------------------------------- |
