@@ -41,7 +41,7 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 4. For each `level` from `0` to `depth - 1`:
    1. Process the current level in adjacent pairs, from left to right.
    2. For each pair, compute the parent hash as `H(NODE_PREFIX || left || right)`.
-   3. If the final node has no right sibling, use the predefined padding hash for the current level as its right sibling.
+   3. If the final node has no right sibling, use pre-computed padding hash for the current level as its right sibling.
    4. Store each parent hash in the same array at index `floor(i / 2)`, overwriting the entries of the previous level from left to right, where `i` is the index of the left child.
    5. Update the current `level size` to `ceil(level_size / 2)`.
 5. Return the hash at index zero as the Merkle root.
