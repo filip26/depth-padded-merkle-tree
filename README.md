@@ -19,7 +19,7 @@ The tree is binary and balanced, using depth-based padding hashes to handle miss
 
 These properties provide a deterministic and efficient basis for selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
 
-## Algorithms
+## Algorithmic Scope 
 
 The selective disclosure process involves three core algorithms, used by the issuer, the disclosing party, and the verifier:
 
@@ -29,7 +29,7 @@ The selective disclosure process involves three core algorithms, used by the iss
 
 The algorithms enable the issuer to commit to a dataset, the disclosing party to reveal selected leaves, and the verifier to check them against the original commitment.
 
-### Root Computation
+## Root Computation
 
 **Input:** An ordered sequence of `n > 1` leaf values.
 
@@ -50,7 +50,7 @@ The algorithm reuses a single array to store successive tree levels, avoiding th
 
 > Note: Salting leaf hashes is recommended. A unique, cryptographically random salt prevents attackers from efficiently guessing the contents of undisclosed leaves by precomputing hashes of likely values and comparing them against published hashes. This protection relies on keeping the salt secret for undisclosed leaves. The issuer and disclosing party can share a secret seed and deterministically derive each leaf's salt from its index, avoiding the need to store or transmit individual salts. When a leaf is disclosed, its salt must be revealed alongside the data so verifiers can recompute its hash.
 
-#### Complexity
+### Complexity
 
 Let `n` be the number of leaves:
 
@@ -60,7 +60,7 @@ Let `n` be the number of leaves:
 
 These bounds assume fixed-size hash outputs and constant-time hash operations.
 
-### Implementation Note
+## Implementation Note
 
 The `ceil`, `floor`, and `log2` operations can be implemented using integer arithmetic and bitwise operations, avoiding floating-point calculations and reducing computational overhead.
 
