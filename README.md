@@ -1,6 +1,6 @@
 # Depth-Padded Merkle Trees for Selective Disclosure
 
-A depth-padded Merkle tree is a cryptographic commitment structure for selective disclosure (SD). It enables a verifier to validate the integrity and membership of selected data elements against a single Merkle root without requiring disclosure of unselected elements. The design prioritizes security, structural simplicity, and computational efficiency through deterministic tree construction, domain-separated hashing, and compact authentication proofs.
+A depth-padded Merkle tree is a cryptographic commitment structure for selective disclosure (SD). It enables a verifier to validate disclosed claims against a single Merkle root without revealing undisclosed claims. The design prioritizes security, simplicity, and computational efficiency.
 
 ## Core Design Objectives
 
