@@ -8,12 +8,12 @@ A depth-padded Merkle tree is a cryptographic commitment structure for selective
 - Structural Simplicity: Uses deterministic, depth-dependent padding to handle incomplete node pairs according to a fixed construction rule, avoiding ad hoc tree restructuring.
 - Computational Efficiency: Supports bottom-up root computation and authentication path generation with limited intermediate storage. For multiple disclosed elements, shared authentication nodes can be reused to reduce proof size and verification overhead.
 - Depth Determination: Derives the tree depth from the number of leaves, producing the minimum depth required to reach a single root under the prescribed binary construction. A configured maximum depth bounds the supported number of leaves and the maximum authentication path length.
-- 
+
 ## Cryptographic Properties
 
 - Deterministic Construction: Defines consistent leaf hashing, internal-node hashing, and padding rules, ensuring reproducible commitments for the same ordered input.
 - Depth-Dependent Padding: Uses predefined padding hashes associated with tree levels to handle non-power-of-two leaf counts consistently.
-- Efficient Membership Proofs: Represents each disclosed element with the sibling hashes and positional information required to reconstruct and verify the Merkle root. Proofs for multiple elements can share common authentication nodes.
+- Efficient Selective Disclosure: Enables verification of disclosed elements using sibling hashes and positional information to reconstruct and verify the Merkle root. Multiple disclosed elements can share common authentication nodes.
 
 These properties provide a deterministic and efficient basis for selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
 
