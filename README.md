@@ -70,7 +70,7 @@ Here, `bit_length(x)` is the number of bits in the binary representation of `x`.
 
 ## Examples
 
-The figure below shows a depth-padded Merkle tree with five leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the authentication path hashes: leaves 1 and 3, and node 5:5. Padding hashes at levels 2 and 3 are computed automatically.
+The figure below shows a depth-padded Merkle tree with five leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the authentication path hashes: leaves 1 and 3, and node 5:5.
 
 ![Tree diagram](tree-5-2.svg)
 
