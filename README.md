@@ -1,6 +1,6 @@
 # Depth-Padded Merkle Tree for Selective Disclosure
 
-A depth-padded Merkle tree is a cryptographic commitment structure for selective disclosure (SD). It enables a verifier to validate disclosed claims against a single Merkle root without revealing undisclosed claims. The design prioritizes security, simplicity, and computational efficiency.
+A depth-padded Merkle tree is a cryptographic commitment structure. It enables a verifier to validate disclosed claims against a single Merkle root without revealing undisclosed claims. The design prioritizes security, simplicity, and computational efficiency.
 
 The tree is binary and balanced, using depth-based padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual authentication path are `O(log n)`. Authentication paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
 
@@ -35,20 +35,19 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 
 **Output:** The Merkle root.
 
-1. Compute the tree depth as `depth = ceil(log2(n))`.
-2. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
-3. Set the current `level size` to `n`.
-4. For each `level` from `0` to `depth - 1`:
+1. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
+2. Set the current `level size` to `n`.
+3. While `level_size > 1`:
    1. Process the current level in adjacent pairs, from left to right.
    2. For each pair, compute the parent hash as `H(NODE_PREFIX || left || right)`.
    3. If the final node has no right sibling, use pre-computed padding hash for the current level as its right sibling.
    4. Store each parent hash in the same array at index `floor(i / 2)`, overwriting the entries of the previous level from left to right, where `i` is the index of the left child.
    5. Update the current `level size` to `ceil(level_size / 2)`.
-5. Return the hash at index zero as the Merkle root.
+4. Return the hash at index zero as the Merkle root.
 
 The algorithm reuses a single array to store successive tree levels, avoiding the need to allocate a separate array for each level. It terminates when the current level contains exactly one hash.
 
-> Note: Salting leaf hashes is recommended. A unique, cryptographically random salt prevents attackers from efficiently guessing the contents of undisclosed leaves by precomputing hashes of likely values and comparing them against published hashes. This protection relies on keeping the salt secret for undisclosed leaves. The issuer and disclosing party can share a secret seed and deterministically derive each leaf's salt from its index, avoiding the need to store or transmit individual salts. When a leaf is disclosed, its salt must be revealed alongside the data so verifiers can recompute its hash.
+> Note: A unique, cryptographically random salt prevents attackers from efficiently guessing the contents of undisclosed leaves by precomputing hashes of likely values and comparing them against published hashes. This protection relies on keeping the salt secret for undisclosed leaves. The issuer and disclosing party can share a secret seed and deterministically derive each leaf's salt from its index, avoiding the need to store or transmit individual salts. When a leaf is disclosed, its salt must be revealed alongside the data so verifiers can recompute its hash.
 
 ### Complexity
 
