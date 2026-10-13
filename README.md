@@ -10,7 +10,8 @@ The tree is binary and balanced, using seed-based padding hashes to handle missi
 ## Design Objectives
 
 - Secure Verification: Uses distinct domain-separation prefixes for leaf data, internal nodes, and padding values to distinguish hash inputs by type. Verification recomputes the commitment according to deterministic hashing rules and compares the resulting root with the trusted commitment.
-- Privacy: Keeps undisclosed contents private while allowing disclosed claims to be independently verified. Preserves the privacy of the total number of claims, preventing its disclosure through the selective disclosure process.
+- Privacy: Keeps undisclosed contents private while allowing disclosed claims to be independently verified.
+- Unlinkability: Preserves the privacy of the total number of claims, preventing its disclosure through the selective disclosure process.
 - Computational Efficiency: Supports bottom-up root computation and verification path generation with limited intermediate storage. For multiple disclosed elements, shared verification nodes can be reused to reduce proof size and verification overhead.
 - Structural Simplicity: Uses deterministic, seed-based padding to handle incomplete node pairs according to a fixed construction rule, avoiding ad hoc tree restructuring.
 
