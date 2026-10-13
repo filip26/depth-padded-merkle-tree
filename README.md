@@ -1,15 +1,18 @@
-# Depth-Padded Merkle Tree for Selective Disclosure
+> [!NOTE]
+> 🚧 **Work in Progress** - Feedback of any kind is welcome, and contributions are highly appreciated! Feel free to open an issue or submit a pull request.
 
-A depth-padded Merkle tree is a cryptographic commitment structure. Selective disclosure is achieved by revealing only the targeted leaf nodes data and their corresponding authentication paths while keeping undisclosed claims private. It enables a verifier to validate disclosed claims against a single Merkle root. The design prioritizes security, privacy, and computational efficiency.
+# Seed-Padded Merkle Tree for Selective Disclosure
 
-The tree is binary and balanced, using depth-based padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual authentication path are `O(log n)`. Authentication paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
+A seed-padded Merkle tree is a cryptographic commitment structure. Selective disclosure is achieved by revealing only the targeted leaf nodes data and their corresponding authentication paths while keeping undisclosed claims private. It enables a verifier to validate disclosed claims against a single Merkle root. The design prioritizes security, privacy, and computational efficiency.
+
+The tree is binary and balanced, using seed-based padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual authentication path are `O(log n)`. Authentication paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
 
 ## Design Objectives
 
 - Secure Verification: Uses distinct domain-separation prefixes for leaf data, internal nodes, and padding values to distinguish hash inputs by type. Verification recomputes the commitment according to deterministic hashing rules and compares the resulting root with the trusted commitment.
 - Privacy: Keeps undisclosed leaf contents private while allowing disclosed elements to be independently verified. The construction also preserves the privacy of the total number of claims, preventing its disclosure through the selective disclosure process.
 - Computational Efficiency: Supports bottom-up root computation and authentication path generation with limited intermediate storage. For multiple disclosed elements, shared authentication nodes can be reused to reduce proof size and verification overhead.
-- Structural Simplicity: Uses deterministic, depth-dependent padding to handle incomplete node pairs according to a fixed construction rule, avoiding ad hoc tree restructuring.
+- Structural Simplicity: Uses deterministic, seed-based padding to handle incomplete node pairs according to a fixed construction rule, avoiding ad hoc tree restructuring.
 
 ## Cryptographic Properties
 
@@ -73,11 +76,11 @@ Here, `bit_length(x)` is the number of bits in the binary representation of `x`.
 
 ## Examples
 
-The figure shows a depth-padded Merkle tree with 5 leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the authentication path hashes: leaves 1 and 3, and node 5:5.
+The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the authentication path hashes: leaves 1 and 3, and node 5:5.
 
 ![Tree 5 2 diagram](tree-5-2.svg)
 
-The figure shows a depth-padded Merkle tree with 5 leaves. The underlying data for all five leaves are disclosed, so no authentication paths are needed to reconstruct the root.
+The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for all five leaves are disclosed, so no authentication paths are needed to reconstruct the root.
 
 ![Tree 5 5 diagram](tree-5-5.svg)
 
