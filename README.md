@@ -37,7 +37,7 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 
 1. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
 2. Set the current `level size` to `n`.
-3. While `level_size > 1`:
+3. While `level_size > 1` do
    1. Process the current level in adjacent pairs, from left to right.
    2. For each pair, compute the parent hash as `H(NODE_PREFIX || left || right)`.
    3. If the final node has no right sibling, use pre-computed padding hash for the current level as its right sibling.
