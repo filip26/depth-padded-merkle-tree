@@ -3,21 +3,21 @@
 
 # Seed-Padded Merkle Tree for Selective Disclosure
 
-A seed-padded Merkle tree is a cryptographic commitment structure. Selective disclosure is achieved by revealing only the targeted leaf nodes data and their corresponding authentication paths while keeping undisclosed claims private. It enables a verifier to validate disclosed claims against a single Merkle root. The design prioritizes security, privacy, and computational efficiency.
+A seed-padded Merkle tree is a cryptographic commitment structure. Selective disclosure is achieved by revealing only the targeted leaf nodes data and their corresponding verification paths while keeping undisclosed claims private. It enables a verifier to validate disclosed claims against a single Merkle root. The design prioritizes security, privacy, and computational efficiency.
 
-The tree is binary and balanced, using seed-based padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual authentication path are `O(log n)`. Authentication paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
+The tree is binary and balanced, using seed-based padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual verification path are `O(log n)`. Verification paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
 
 ## Design Objectives
 
 - Secure Verification: Uses distinct domain-separation prefixes for leaf data, internal nodes, and padding values to distinguish hash inputs by type. Verification recomputes the commitment according to deterministic hashing rules and compares the resulting root with the trusted commitment.
 - Privacy: Keeps undisclosed contents private while allowing disclosed claims to be independently verified. Preserves the privacy of the total number of claims, preventing its disclosure through the selective disclosure process.
-- Computational Efficiency: Supports bottom-up root computation and authentication path generation with limited intermediate storage. For multiple disclosed elements, shared authentication nodes can be reused to reduce proof size and verification overhead.
+- Computational Efficiency: Supports bottom-up root computation and verification path generation with limited intermediate storage. For multiple disclosed elements, shared verification nodes can be reused to reduce proof size and verification overhead.
 - Structural Simplicity: Uses deterministic, seed-based padding to handle incomplete node pairs according to a fixed construction rule, avoiding ad hoc tree restructuring.
 
 ## Cryptographic Properties
 
 - Deterministic Construction: Defines consistent leaf hashing, internal-node hashing, and padding rules, ensuring reproducible commitments for the same ordered input.
-- Efficient Selective Disclosure: Enables verification of disclosed elements using sibling hashes and positional information to reconstruct and verify the Merkle root. Multiple disclosed elements share common authentication nodes. 
+- Efficient Selective Disclosure: Enables verification of disclosed elements using sibling hashes and positional information to reconstruct and verify the Merkle root. Multiple disclosed elements share common verification nodes. 
 - Seed-Based Padding: Uses precomputed, seed-based padding hashes to handle non-power-of-two leaf counts consistently while keeping the total number of claims private. To the verifier, padding nodes are indistinguishable from other nodes and leafs.
 
 These properties provide a deterministic and efficient basis for privacy-preserving selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents and the total number of claims private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
@@ -27,8 +27,8 @@ These properties provide a deterministic and efficient basis for privacy-preserv
 The selective disclosure process involves three core algorithms, used by the issuer, the disclosing party, and the verifier:
 
 - Root Computation: The issuer computes a Merkle root from the complete, ordered set of leaves. The root serves as a commitment to the dataset.
-- Authentication Path Generation: The disclosing party selects the leaves to reveal and generates their authentication paths. These paths provide the additional hash values and positional information needed to verify the disclosed leaves without revealing the remaining leaves.
-- Root Reconstruction and Verification: The verifier uses the disclosed leaves and their authentication paths to reconstruct the Merkle root. The disclosed data is accepted as consistent with the original commitment if the reconstructed root matches the trusted root.
+- verification Path Generation: The disclosing party selects the leaves to reveal and generates their verification paths. These paths provide the additional hash values and positional information needed to verify the disclosed leaves without revealing the remaining leaves.
+- Root Reconstruction and Verification: The verifier uses the disclosed leaves and their verification paths to reconstruct the Merkle root. The disclosed data is accepted as consistent with the original commitment if the reconstructed root matches the trusted root.
 
 The algorithms enable the issuer to commit to a dataset, the disclosing party to reveal selected leaves, and the verifier to check them against the original commitment.
 
@@ -76,18 +76,18 @@ Here, `bit_length(x)` is the number of bits in the binary representation of `x`.
 
 ## Examples
 
-The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the authentication path hashes: leaves 1 and 3, and node 5:5.
+The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the verification path hashes: leaves 1 and 3, and node 5:5.
 
 ![Tree 5 2 diagram](tree-5-2.svg)
 
-The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for all five leaves are disclosed, so no authentication paths are needed to reconstruct the root.
+The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for all five leaves are disclosed, so no verification paths are needed to reconstruct the root.
 
 ![Tree 5 5 diagram](tree-5-5.svg)
 
-The figure shows a tree with 8 leaves. No padding is needed because the number of leaves is a power of two. The underlying data for leaves 1–4 are disclosed, along with the authentication path hash for node 5:8, allowing the verifier to reconstruct and verify the root.
+The figure shows a tree with 8 leaves. No padding is needed because the number of leaves is a power of two. The underlying data for leaves 1–4 are disclosed, along with the verification path hash for node 5:8, allowing the verifier to reconstruct and verify the root.
 
 ![Tree 8 4 diagram](tree-8-4.svg)
 
-The figure shows a tree with 11 leaves. The underlying data for leaves 1, 2, and 8 are disclosed, while the remaining leaf data stay private. The authentication paths include the hash values for nodes 3:4 and 5:6, leaf 7, and node 9:11, allowing the verifier to reconstruct and verify the root.
+The figure shows a tree with 11 leaves. The underlying data for leaves 1, 2, and 8 are disclosed, while the remaining leaf data stay private. The verification paths include the hash values for nodes 3:4 and 5:6, leaf 7, and node 9:11, allowing the verifier to reconstruct and verify the root.
 
 ![Tree 11 3 diagram](tree-11-3.svg)
