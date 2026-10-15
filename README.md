@@ -36,7 +36,7 @@ These properties provide a deterministic and efficient basis for privacy-preserv
   - The signed Merkle root.
   - The issuer's public key.
   - The secret key `K` and array size `M`.
-  - The salt seed `S`
+  - The salt seed `S`.
   - The dataset.
 
 ### Holder
@@ -53,7 +53,7 @@ These properties provide a deterministic and efficient basis for privacy-preserv
 
 ### Verifier
 
-- Flattens the relevant dataset into an ordered list of claims. Let `N` be the number of claims and `M = 2 * ceil( N / 2)`.
+- Flattens the relevant dataset into an ordered list of claims.
 - Hashes the disclosed claims and assigns them to their slots using the provided salts and slot indices.
 - Reconstructs the Seed-Padded Merkle root from the disclosed claims and verification path.
 - Verifies the issuer's signature on the reconstructed Merkle root using the issuer's public key.
