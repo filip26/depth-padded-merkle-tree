@@ -87,6 +87,7 @@ Here, `bit_length(x)` is the number of bits in the binary representation of `x`.
   - The signed Merkle root.
   - The issuer's public key.
   - The secret key `K`.
+  - The salt seed `S`
   - The dataset.
 
 ### Holder
