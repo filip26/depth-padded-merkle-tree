@@ -35,7 +35,7 @@ These properties provide a deterministic and efficient basis for privacy-preserv
 - Shares the following with the holder:
   - The signed Merkle root.
   - The issuer's public key.
-  - The secret key `K`.
+  - The secret key `K` and array size `M`.
   - The salt seed `S`
   - The dataset.
 
@@ -70,7 +70,7 @@ The example shows a tree with 11 claims, padded to an even number, i.e., 12 leav
 The selective disclosure process involves three core algorithms, used by the issuer, the disclosing party, and the verifier:
 
 - Root Computation: The issuer computes a Merkle root from the complete, ordered set of leaves. The root serves as a commitment to the dataset.
-- verification Path Generation: The disclosing party selects the leaves to reveal and generates their verification paths. These paths provide the additional hash values and positional information needed to verify the disclosed leaves without revealing the remaining leaves.
+- Verification Path Generation: The disclosing party selects the leaves to reveal and generates their verification paths. These paths provide the additional hash values and positional information needed to verify the disclosed leaves without revealing the remaining leaves.
 - Root Reconstruction and Verification: The verifier uses the disclosed leaves and their verification paths to reconstruct the Merkle root. The disclosed data is accepted as consistent with the original commitment if the reconstructed root matches the trusted root.
 
 The algorithms enable the issuer to commit to a dataset, the disclosing party to reveal selected leaves, and the verifier to check them against the original commitment.
