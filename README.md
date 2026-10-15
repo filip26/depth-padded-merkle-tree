@@ -97,7 +97,7 @@ Here, `bit_length(x)` is the number of bits in the binary representation of `x`.
 - Generates the Seed-Padded Merkle tree verification path for the selected claims.
 - Shares the following with the verifier:
   - The selected claims in their dataset representation.
-  - Their salts and assigned slot indices.
+  - The selected claims salts and assigned slot indices.
   - The corresponding verification path.
   - The issuer's signed Merkle root.
 
