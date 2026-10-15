@@ -23,6 +23,48 @@ The tree is binary and balanced, using seed-based padding hashes to handle missi
 
 These properties provide a deterministic and efficient basis for privacy-preserving selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents and the total number of claims private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
 
+
+## Actors
+
+### Issuer
+
+- Flattens the dataset into an ordered list of claims.
+- Distributes the claims across an array of size `M` using the secret-keyed HMAC slot-distribution algorithm.
+- Generates the Seed-Padded Merkle root.
+- Signs the Merkle root using the issuer's private key.
+- Shares the following with the holder:
+  - The signed Merkle root.
+  - The issuer's public key.
+  - The secret key `K`.
+  - The salt seed `S`
+  - The dataset.
+
+### Holder
+
+- Flattens the dataset into an ordered list of claims.
+- Distributes the claims across an array of size `M` using the same HMAC slot-distribution algorithm and secret key `K`.
+- Selects the claims to disclose.
+- Generates the Seed-Padded Merkle tree verification path for the selected claims.
+- Shares the following with the verifier:
+  - The selected claims in their dataset representation.
+  - The selected claims salts and assigned slot indices.
+  - The corresponding verification path.
+  - The issuer's signed Merkle root.
+
+### Verifier
+
+- Flattens the relevant dataset into an ordered list of claims. Let `N` be the number of claims and `M = 2 * ceil( N / 2)`.
+- Hashes the disclosed claims and assigns them to their slots using the provided salts and slot indices.
+- Reconstructs the Seed-Padded Merkle root from the disclosed claims and verification path.
+- Verifies the issuer's signature on the reconstructed Merkle root using the issuer's public key.
+- Accepts the disclosed claims only if signature verification.
+
+### Example
+
+The example shows a tree with 11 claims, padded to an even number, i.e., 12 leaves. The underlying claims for leaves 1, 2, 8, and 11 are disclosed, while the remaining claims stay private. The verification path include the hash values for nodes 3:4, 5:6, 9:10 and P2 (depth-based padding level 2), as well as leaves 7 and 12, allowing the verifier to reconstruct and verify the root.
+
+![Example #1](example-1.svg)
+
 ## Algorithmic Scope 
 
 The selective disclosure process involves three core algorithms, used by the issuer, the disclosing party, and the verifier:
@@ -75,43 +117,3 @@ The `ceil`, `floor`, and `log2` operations can be implemented using integer arit
 
 Here, `bit_length(x)` is the number of bits in the binary representation of `x`. e.g. in Java, it can be computed as `32 - Integer.numberOfLeadingZeros(x)` for positive `int` values.
 
-## Actors
-
-### Issuer
-
-- Flattens the dataset into an ordered list of claims.
-- Distributes the claims across an array of size `M` using the secret-keyed HMAC slot-distribution algorithm.
-- Generates the Seed-Padded Merkle root.
-- Signs the Merkle root using the issuer's private key.
-- Shares the following with the holder:
-  - The signed Merkle root.
-  - The issuer's public key.
-  - The secret key `K`.
-  - The salt seed `S`
-  - The dataset.
-
-### Holder
-
-- Flattens the dataset into an ordered list of claims.
-- Distributes the claims across an array of size `M` using the same HMAC slot-distribution algorithm and secret key `K`.
-- Selects the claims to disclose.
-- Generates the Seed-Padded Merkle tree verification path for the selected claims.
-- Shares the following with the verifier:
-  - The selected claims in their dataset representation.
-  - The selected claims salts and assigned slot indices.
-  - The corresponding verification path.
-  - The issuer's signed Merkle root.
-
-### Verifier
-
-- Flattens the relevant dataset into an ordered list of claims. Let `N` be the number of claims and `M = 2 * ceil( N / 2)`.
-- Hashes the disclosed claims and assigns them to their slots using the provided salts and slot indices.
-- Reconstructs the Seed-Padded Merkle root from the disclosed claims and verification path.
-- Verifies the issuer's signature on the reconstructed Merkle root using the issuer's public key.
-- Accepts the disclosed claims only if signature verification.
-
-## Examples
-
-![Example #1](example-1.svg)
-
-The figure shows a tree with 11 claims, padded to an even number, i.e., 12 leaves. The underlying claims for leaves 1, 2, 8, and 11 are disclosed, while the remaining claims stay private. The verification path include the hash values for nodes 3:4, 5:6, 9:10 and P2 (depth-based padding level 2), as well as leaves 7 and 12, allowing the verifier to reconstruct and verify the root. 
