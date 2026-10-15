@@ -69,7 +69,7 @@ The example shows a tree with 11 claims, padded to an even number, i.e., 12 leav
 
 The selective disclosure process involves three core algorithms, used by the issuer, the disclosing party, and the verifier:
 
-- Root Computation: The issuer computes a Merkle root from the complete, ordered set of leaves. The root serves as a commitment to the dataset.
+- Root Computation: The issuer computes a Merkle root from the complete, ordered set of leaf hashes. The root serves as a commitment to the dataset.
 - Verification Path Generation: The disclosing party selects the leaves to reveal and generates their verification paths. These paths provide the additional hash values and positional information needed to verify the disclosed leaves without revealing the remaining leaves.
 - Root Reconstruction and Verification: The verifier uses the disclosed leaves and their verification paths to reconstruct the Merkle root. The disclosed data is accepted as consistent with the original commitment if the reconstructed root matches the trusted root.
 
@@ -77,19 +77,18 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 
 ## Root Computation
 
-**Input:** An ordered sequence of `n > 1` leaf values.
+**Input:** An ordered sequence of `n > 1` and `n % 2 == 0` leaf hashes.
 
 **Output:** The Merkle root.
 
-1. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
-2. Set the current `level size` to `n`.
-3. While `level_size > 1` do
+1. Set the current `level size` to `n`.
+2. While `level_size > 1` do
    1. Process the current level in adjacent pairs, from left to right.
    2. For each pair, compute the parent hash as `H(NODE_PREFIX || left || right)`.
    3. If the final node has no right sibling, use pre-computed padding hash for the current level as its right sibling.
    4. Store each parent hash in the same array at index `floor(i / 2)`, overwriting the entries of the previous level from left to right, where `i` is the index of the left child.
    5. Update the current `level size` to `ceil(level_size / 2)`.
-4. Return the hash at index zero as the Merkle root.
+3. Return the hash at index zero as the Merkle root.
 
 The algorithm reuses a single array to store successive tree levels, avoiding the need to allocate a separate array for each level. It terminates when the current level contains exactly one hash.
 
@@ -104,6 +103,14 @@ Let `n` be the number of leaves:
 - Tree Depth: `O(log n)`. The number of levels processed grows logarithmically with the number of leaves.
 
 These bounds assume fixed-size hash outputs and constant-time hash operations.
+
+## Leaf Hashes Computation
+
+**Input:** An ordered sequence of `n > 1` claims, entropy `0 < p < 1`, and salt seed `S`.
+
+**Output:** The ordered sequence of leaf hashes.
+
+1. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
 
 ## Implementation Note
 
