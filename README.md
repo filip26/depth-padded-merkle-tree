@@ -92,8 +92,6 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 
 The algorithm reuses a single array to store successive tree levels, avoiding the need to allocate a separate array for each level. It terminates when the current level contains exactly one hash.
 
-> Note: A unique, cryptographically random salt prevents attackers from efficiently guessing the contents of undisclosed leaves by precomputing hashes of likely values and comparing them against published hashes. This protection relies on keeping the salt secret for undisclosed leaves. The issuer and disclosing party can share a secret seed and deterministically derive each leaf's salt from its index, avoiding the need to store or transmit individual salts. When a leaf is disclosed, its salt must be revealed alongside the data so verifiers can recompute its hash.
-
 ### Complexity
 
 Let `n` be the number of leaves:
@@ -104,13 +102,17 @@ Let `n` be the number of leaves:
 
 These bounds assume fixed-size hash outputs and constant-time hash operations.
 
-## Leaf Hashes Computation
+## Leaf Hashes Computation and Distribution
 
-**Input:** An ordered sequence of `n > 1` claims, entropy `0 < p < 1`, and salt seed `S`.
+**Input:** An ordered sequence of `n > 1` claims, leaf hash array size `n <= m` and `m % 2 == 0` , and salt seed `S`.
 
-**Output:** The ordered sequence of leaf hashes.
+**Output:** The ordered sequence of leaf hashes where the total size is even number.
 
 1. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
+...
+
+> Note: A unique, cryptographically random salt prevents attackers from efficiently guessing the contents of undisclosed leaves by precomputing hashes of likely values and comparing them against published hashes. This protection relies on keeping the salt secret for undisclosed leaves. The issuer and disclosing party can share a secret seed and deterministically derive each leaf's salt from its index, avoiding the need to store or transmit individual salts. When a leaf is disclosed, its salt must be revealed alongside the data so verifiers can recompute its hash.
+
 
 ## Implementation Note
 
