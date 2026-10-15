@@ -75,6 +75,40 @@ The `ceil`, `floor`, and `log2` operations can be implemented using integer arit
 
 Here, `bit_length(x)` is the number of bits in the binary representation of `x`. e.g. in Java, it can be computed as `32 - Integer.numberOfLeadingZeros(x)` for positive `int` values.
 
+## Actors
+
+### Issuer
+
+- Flattens the dataset into an ordered list of claims.
+- Distributes the claims across an array of size `M` using the secret-keyed HMAC slot-distribution algorithm.
+- Generates the Seed-Padded Merkle root.
+- Signs the Merkle root using the issuer's private key.
+- Shares the following with the holder:
+  - The signed Merkle root.
+  - The issuer's public key.
+  - The secret key `K`.
+  - The dataset.
+
+### Holder
+
+- Flattens the dataset into an ordered list of claims.
+- Distributes the claims across an array of size `M` using the same HMAC slot-distribution algorithm and secret key `K`.
+- Selects the claims to disclose.
+- Generates the Seed-Padded Merkle tree verification path for the selected claims.
+- Shares the following with the verifier:
+  - The selected claims in their dataset representation.
+  - Their salts and assigned slot indices.
+  - The corresponding verification path.
+  - The issuer's signed Merkle root.
+
+### Verifier
+
+- Flattens the relevant dataset into an ordered list of claims. Let `N` be the number of claims and `M = 2 * ceil( N / 2)`.
+- Hashes the disclosed claims and assigns them to their slots using the provided salts and slot indices.
+- Reconstructs the Seed-Padded Merkle root from the disclosed claims and verification path.
+- Verifies the issuer's signature on the reconstructed Merkle root using the issuer's public key.
+- Accepts the disclosed claims only if signature verification.
+
 ## Examples
 
 The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the verification path hashes: leaves 1 and 3, and node 5:5.
