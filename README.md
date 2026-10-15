@@ -111,18 +111,6 @@ Here, `bit_length(x)` is the number of bits in the binary representation of `x`.
 
 ## Examples
 
-The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for leaves 2 and 4 are disclosed, while the data for leaves 1, 3, and 5 remain private. Leaves and internal nodes represent hash values. To reconstruct and verify the root, the verifier uses the disclosed data and the verification path hashes: leaves 1 and 3, and node 5:5.
+![Example #1](example-1.svg)
 
-![Tree 5 2 diagram](tree-5-2.svg)
-
-The figure shows a seed-padded Merkle tree with 5 leaves. The underlying data for all five leaves are disclosed, so no verification paths are needed to reconstruct the root.
-
-![Tree 5 5 diagram](tree-5-5.svg)
-
-The figure shows a tree with 8 leaves. No padding is needed because the number of leaves is a power of two. The underlying data for leaves 1–4 are disclosed, along with the verification path hash for node 5:8, allowing the verifier to reconstruct and verify the root.
-
-![Tree 8 4 diagram](tree-8-4.svg)
-
-The figure shows a tree with 11 leaves. The underlying data for leaves 1, 2, and 8 are disclosed, while the remaining leaf data stay private. The verification paths include the hash values for nodes 3:4 and 5:6, leaf 7, and node 9:11, allowing the verifier to reconstruct and verify the root.
-
-![Tree 11 3 diagram](tree-11-3.svg)
+The figure shows a tree with 11 claims, padded to an even number, i.e., 12 leaves. The underlying claims for leaves 1, 2, 5, and 11 are disclosed, while the remaining claims stay private. The verification paths include the hash values for nodes 3:4, 7:8, and 9:11, as well as leaves 7 and 12, allowing the verifier to reconstruct and verify the root. 
