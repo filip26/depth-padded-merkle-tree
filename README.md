@@ -5,7 +5,7 @@
 
 A Salted Merkle tree is a cryptographic commitment structure. Selective disclosure is achieved by revealing only the targeted leaf nodes data and their corresponding verification paths while keeping undisclosed claims private. It enables a verifier to validate disclosed claims against a single Merkle root. The design prioritizes security, privacy, and computational efficiency.
 
-The tree is binary and balanced, using seed-based padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual verification path are `O(log n)`. Verification paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
+The tree is binary and balanced, using unique padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual verification path are `O(log n)`. Verification paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
 
 ## Design Objectives
 
@@ -13,13 +13,13 @@ The tree is binary and balanced, using seed-based padding hashes to handle missi
 - Privacy: Keeps undisclosed contents private while allowing disclosed claims to be independently verified.
 - Unlinkability: Preserves the privacy of the total number of claims and the distribution of undisclosed claims, preventing their disclosure through the selective disclosure process.
 - Computational Efficiency: Supports bottom-up root computation and verification path generation with limited intermediate storage. For multiple disclosed elements, shared verification nodes can be reused to reduce proof size and verification overhead.
-- Structural Simplicity: Uses deterministic, seed-based padding to handle incomplete node pairs according to a fixed construction rule, avoiding ad hoc tree restructuring.
+- Structural Simplicity: Uses deterministic, salted padding to handle incomplete node pairs according to a fixed construction rule, avoiding ad hoc tree restructuring.
 
 ## Cryptographic Properties
 
 - Deterministic Construction: Defines consistent leaf hashing, internal-node hashing, and padding rules, ensuring reproducible commitments for the same ordered input.
 - Efficient Selective Disclosure: Enables verification of disclosed elements using sibling hashes and positional information to reconstruct and verify the Merkle root. Multiple disclosed elements share common verification nodes. 
-- Seed-Based Padding: Uses precomputed, seed-based padding hashes to handle non-power-of-two leaf counts consistently while keeping the total number of claims private. To the verifier, padding nodes are indistinguishable from other nodes and leafs.
+- Salted Padding: Uses precomputed, salted padding hashes to handle non-power-of-two leaf counts consistently while keeping the total number of claims private. To the verifier, padding nodes are indistinguishable from other nodes and leafs.
 
 These properties provide a deterministic and efficient basis for privacy-preserving selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents and the total number of claims private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
 
@@ -103,7 +103,7 @@ These bounds assume fixed-size hash outputs and constant-time hash operations.
 
 ## Leaf Hashes Computation and Distribution
 
-**Input:** An ordered sequence of `n > 1` claims, leaf hash array size `n <= m` and `m % 2 == 0` , and salt seed `S`.
+**Input:** An ordered sequence of `n > 1` claims, leaf hash array size `n <= m` and `m % 2 == 0` , and HMAC secret key `K`.
 
 **Output:** The ordered sequence of leaf hashes where the total size is even number.
 
