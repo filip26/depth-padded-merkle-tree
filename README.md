@@ -35,7 +35,7 @@ A claim is an atomic, canonicalized unit of information derived from a dataset t
 
 Architectural separation among the Issuer, Holder, and Verifier isolates trust domains. The Issuer establishes cryptographic commitment via digital signing, the Holder executes selective disclosure, and the Verifier performs stateless validation. The three-party model enforces cryptographic separation of duties and ensures that the Verifier verifies claims via non-interactive path validation without establishing communication channels with the Issuer, thereby eliminating online tracking and preserving unlinkability across protocol sessions.
 
-> Note: The Issuer and Holder roles may coincide as a single entity in self-issued scenarios.
+> Note: The Issuer and Holder roles may coincide as a single entity in self-issued scenarios. See _Appendix_.
 
 ### Issuer
 
@@ -148,3 +148,6 @@ The `ceil`, `floor`, and `log2` operations can be implemented using integer arit
 
 Here, `bit_length(x)` is the number of bits in the binary representation of `x`. e.g. in Java, it can be computed as `32 - Integer.numberOfLeadingZeros(x)` for positive `int` values.
 
+### JSON Dataset
+
+### Implementations
