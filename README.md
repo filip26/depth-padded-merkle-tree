@@ -83,7 +83,7 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 1. Set the current `level size` to `n`.
 2. While `level_size > 1` do
    1. Process the current level in adjacent pairs, from left to right.
-   2. For each pair, compute the parent hash as `H(NODE_PREFIX || left || right)`.
+   2. For each pair, compute the parent hash as `H(0x01 || left || right)`.
    3. If the final node has no right sibling, use pre-computed padding hash for the current level as its right sibling.
    4. Store each parent hash in the same array at index `floor(i / 2)`, overwriting the entries of the previous level from left to right, where `i` is the index of the left child.
    5. Update the current `level size` to `ceil(level_size / 2)`.
@@ -103,11 +103,11 @@ These bounds assume fixed-size hash outputs and constant-time hash operations.
 
 ## Leaf Hashes Computation and Distribution
 
-**Input:** An ordered sequence of `n > 1` claims, leaf hash array size `n <= m` and `m % 2 == 0` , and HMAC secret key `K`.
+**Input:** An ordered sequence of `n > 1` claim and salt pairs, target leaf hash array size `n <= m` and `m % 2 == 0` , and HMAC secret key `K`.
 
-**Output:** The ordered sequence of leaf hashes where the total size is even number.
+**Output:** The ordered sequence of leaf hashes where the total size is even number `n`.
 
-1. Hash each leaf as `H(LEAF_PREFIX || salt || data)`, storing the resulting hashes in a single array.
+1. Hash each leaf as `H(0x00 || salt || data)`, storing the resulting hashes in a single array.
 ...
 
 > Note: A unique, cryptographically random salt prevents attackers from efficiently guessing the contents of undisclosed leaves by precomputing hashes of likely values and comparing them against published hashes. This protection relies on keeping the salt secret for undisclosed leaves. The issuer and disclosing party can share a secret seed and deterministically derive each leaf's salt from its index, avoiding the need to store or transmit individual salts. When a leaf is disclosed, its salt must be revealed alongside the data so verifiers can recompute its hash.
