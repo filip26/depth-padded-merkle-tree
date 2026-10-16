@@ -42,8 +42,6 @@ An entity that instantiates a cryptographic commitment scheme over a dataset by 
 
 ### Holder (disclosing party)
 
-### Holder (disclosing party)
-
 An entity acting as a cryptographic prover in a selective disclosure protocol that receives the dataset, HMAC secret key `K`, array dimension `M`, and signed Merkle root from the Issuer, with the provision that the Issuer and Holder roles may coincide as a single entity in self-issued deployment scenarios. The Holder is responsible for serializing the dataset into a canonical sequence, mapping claims to a sparse vector of dimension `M` via the keyed slot-distribution function, computing cryptographic verification path for a subset of targeted claims, and transmitting the proofs and public parameters to the Verifier.
 
 - Flattens the dataset into an ordered list of claims.
@@ -57,6 +55,8 @@ An entity acting as a cryptographic prover in a selective disclosure protocol th
   - The issuer's signed Merkle root.
 
 ### Verifier
+
+An entity that acts as a verifier in a selective disclosure protocol, responsible for authenticating the subset of claims revealed by the Holder. The Verifier reconstructs the Salted Merkle tree root from the disclosed claims, their respective salts, slot indices, and verification path, and cryptographically validates the issuer's digital signature over the reconstructed root using the issuer's public key.
 
 - Flattens the relevant dataset into an ordered list of claims.
 - Hashes the disclosed claims and assigns them to their slots using the provided salts and slot indices.
