@@ -24,7 +24,10 @@ The tree is binary and balanced, using unique padding hashes to handle missing s
 These properties provide a deterministic and efficient basis for privacy-preserving selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents and the total number of claims private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
 
 
+
 ## Actors
+
+Architectural separation among the Issuer, Holder, and Verifier isolates trust domains. The Issuer establishes foundational cryptographic binding via digital signing, the Holder executes selective disclosure, and the Verifier performs stateless validation. This three-party model enforces cryptographic separation of duties. This architecture ensures that the Verifier authenticates claims via non-interactive path validation without establishing communication channels with the Issuer, thereby eliminating online tracking and preserving unlinkability across protocol sessions.
 
 ### Issuer
 
