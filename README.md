@@ -28,6 +28,8 @@ These properties provide a deterministic and efficient basis for privacy-preserv
 
 ### Issuer
 
+An entity that instantiates a cryptographic commitment scheme over a dataset by serializing claims into a canonical sequence, mapping them to a sparse vector of dimension M via a keyed pseudorandom slot-distribution function, computing a Salted Merkle tree root, and generating a digital signature over the root. The Issuer transmits the signed root, verification key, HMAC secret key `K`, leaves dimension `M`, and dataset to the Holder.
+
 - Flattens the dataset into an ordered list of claims.
 - Distributes the claims across an array of size `M` using the secret-keyed HMAC slot-distribution algorithm.
 - Generates the Salted Merkle root.
@@ -38,7 +40,11 @@ These properties provide a deterministic and efficient basis for privacy-preserv
   - The secret key `K` and leaves array size `M`.
   - The dataset.
 
-### Holder
+### Holder (disclosing party)
+
+### Holder (disclosing party)
+
+An entity acting as a cryptographic prover in a selective disclosure protocol that receives the dataset, HMAC secret key `K`, array dimension `M`, and signed Merkle root from the Issuer, with the provision that the Issuer and Holder roles may coincide as a single entity in self-issued deployment scenarios. The Holder is responsible for serializing the dataset into a canonical sequence, mapping claims to a sparse vector of dimension `M` via the keyed slot-distribution function, computing cryptographic verification path for a subset of targeted claims, and transmitting the proofs and public parameters to the Verifier.
 
 - Flattens the dataset into an ordered list of claims.
 - Distributes the claims across an array of size `M` using the same HMAC slot-distribution algorithm and secret key `K`.
