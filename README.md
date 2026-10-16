@@ -33,7 +33,7 @@ A claim is an atomic, canonicalized unit of information derived from a dataset t
 
 ## Actors
 
-Architectural separation among the Issuer, Holder, and Verifier isolates trust domains. The Issuer establishes foundational cryptographic binding via digital signing, the Holder executes selective disclosure, and the Verifier performs stateless validation. The three-party model enforces cryptographic separation of duties and ensures that the Verifier authenticates claims via non-interactive path validation without establishing communication channels with the Issuer, thereby eliminating online tracking and preserving unlinkability across protocol sessions.
+Architectural separation among the Issuer, Holder, and Verifier isolates trust domains. The Issuer establishes cryptographic commitment via digital signing, the Holder executes selective disclosure, and the Verifier performs stateless validation. The three-party model enforces cryptographic separation of duties and ensures that the Verifier verifies claims via non-interactive path validation without establishing communication channels with the Issuer, thereby eliminating online tracking and preserving unlinkability across protocol sessions.
 
 > Note: The Issuer and Holder roles may coincide as a single entity in self-issued scenarios.
 
