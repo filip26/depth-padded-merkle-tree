@@ -77,11 +77,12 @@ The example shows a tree with 11 claims, padded to an even number, i.e., 12 leav
 
 ## Datasets
 
-A claim is an atomic, canonicalized unit of information derived from a dataset that can be independently represented, committed to, and selectively disclosed. Each claim is encoded in a deterministic canonical form so that equivalent claims produce identical representations.
-
 Any dataset that supports a bidirectional mapping between its native representation and a flat list of canonicalized claims can be used for selective disclosure using a salted Merkle tree.
 
-> Note: This document specifies algorithms for datasets represented as JSON, JSON-LD, and RDF. See the *Algorithms* section.
+A claim is an atomic, canonicalized unit of information derived from a dataset that can be independently represented, committed to, and selectively disclosed. Each claim is encoded in a deterministic canonical form so that equivalent claims produce identical representations.
+
+
+> Note: This document specifies algorithms for datasets represented as JSON, JSON-LD, and RDF (N-Quads).
 
 ## Algorithms
 
