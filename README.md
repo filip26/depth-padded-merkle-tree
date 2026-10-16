@@ -29,13 +29,13 @@ Any dataset that supports a bidirectional mapping between its native representat
 
 A claim is an atomic, canonicalized unit of information derived from a dataset that can be independently represented, committed to, and selectively disclosed. Each claim is encoded in a deterministic canonical form so that equivalent claims produce identical representations.
 
-> Note: This document specifies algorithms for datasets represented as JSON, JSON-LD, and RDF (N-Quads).
+> Note: This document specifies algorithms for datasets represented as JSON, JSON-LD, and RDF (N-Quads). See _Appendix_.
 
 ## Actors
 
 Conceptual separation among the Issuer, Holder, and Verifier isolates trust domains. The Issuer establishes cryptographic commitment via digital signing, the Holder executes selective disclosure, and the Verifier performs stateless validation. The three-party model enforces cryptographic separation of duties and ensures that the Verifier verifies claims via non-interactive path validation without establishing communication channels with the Issuer, thereby eliminating online tracking and preserving unlinkability across protocol sessions.
 
-> Note: The Issuer and Holder roles may coincide as a single entity in self-issued scenarios. See _Appendix_.
+> Note: The Issuer and Holder roles may coincide as a single entity in self-issued scenarios.
 
 ### Issuer
 
