@@ -75,7 +75,15 @@ The example shows a tree with 11 claims, padded to an even number, i.e., 12 leav
 
 ![Example #1](example-1.svg)
 
-## Algorithmic Scope 
+## Datasets
+
+A claim is an atomic, canonicalized unit of information derived from a dataset that can be independently represented, committed to, and selectively disclosed. Each claim is encoded in a deterministic canonical form so that equivalent claims produce identical representations.
+
+Any dataset that supports a bidirectional mapping between its native representation and a flat list of canonicalized claims can be used for selective disclosure using a salted Merkle tree.
+
+> Note: This document specifies algorithms for datasets represented as JSON, JSON-LD, and RDF. See the *Algorithms* section.
+
+## Algorithms
 
 The selective disclosure process involves three core algorithms, used by the issuer, the holder (the disclosing party), and the verifier:
 
@@ -85,7 +93,7 @@ The selective disclosure process involves three core algorithms, used by the iss
 
 The algorithms enable the issuer to commit to a dataset, the disclosing party to reveal selected leaves, and the verifier to check them against the original commitment.
 
-## Root Computation
+### Root Computation
 
 **Input:** An ordered sequence of `n > 1` and `n % 2 == 0` leaf hashes.
 
@@ -102,7 +110,7 @@ The algorithms enable the issuer to commit to a dataset, the disclosing party to
 
 The algorithm reuses a single array to store successive tree levels, avoiding the need to allocate a separate array for each level. It terminates when the current level contains exactly one hash.
 
-### Complexity
+#### Complexity
 
 Let `n` be the number of leaves:
 
@@ -112,7 +120,7 @@ Let `n` be the number of leaves:
 
 These bounds assume fixed-size hash outputs and constant-time hash operations.
 
-## Leaf Hashes Computation and Distribution
+### Leaf Hashes Computation and Distribution
 
 **Input:** An ordered sequence of `n > 1` claims, target leaf hash array size `n <= m` and `m % 2 == 0` , and HMAC secret key `K`.
 
@@ -128,7 +136,9 @@ These bounds assume fixed-size hash outputs and constant-time hash operations.
 > Note: A unique, cryptographically random salt prevents attackers from efficiently guessing the contents of undisclosed leaves by precomputing hashes of likely values and comparing them against published hashes. This protection relies on keeping the salt secret for undisclosed leaves. The issuer and disclosing party can share a secret seed and deterministically derive each leaf's salt from its index, avoiding the need to store or transmit individual salts. When a leaf is disclosed, its salt must be revealed alongside the data so verifiers can recompute its hash.
 
 
-## Implementation Note
+## Appendix
+
+### Implementation Note
 
 The `ceil`, `floor`, and `log2` operations can be implemented using integer arithmetic and bitwise operations, avoiding floating-point calculations and reducing computational overhead.
 
