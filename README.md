@@ -1,9 +1,9 @@
 > [!NOTE]
 > 🚧 **Work in Progress** - Feedback of any kind is welcome, and contributions are highly appreciated! Feel free to open an issue or submit a pull request.
 
-# Seed-Padded Merkle Tree for Selective Disclosure
+# Salted Merkle Tree for Selective Disclosure
 
-A seed-padded Merkle tree is a cryptographic commitment structure. Selective disclosure is achieved by revealing only the targeted leaf nodes data and their corresponding verification paths while keeping undisclosed claims private. It enables a verifier to validate disclosed claims against a single Merkle root. The design prioritizes security, privacy, and computational efficiency.
+A Salted Merkle tree is a cryptographic commitment structure. Selective disclosure is achieved by revealing only the targeted leaf nodes data and their corresponding verification paths while keeping undisclosed claims private. It enables a verifier to validate disclosed claims against a single Merkle root. The design prioritizes security, privacy, and computational efficiency.
 
 The tree is binary and balanced, using seed-based padding hashes to handle missing siblings without explicitly constructing or storing all padding nodes. This avoids the space and computation overhead of materializing a fully padded tree. For `n` leaves, root computation takes `O(n)` time and `O(n)` space. The tree depth and the size of an individual verification path are `O(log n)`. Verification paths for multiple disclosed leaves  share common nodes, reducing the total proof size.
 
@@ -30,13 +30,12 @@ These properties provide a deterministic and efficient basis for privacy-preserv
 
 - Flattens the dataset into an ordered list of claims.
 - Distributes the claims across an array of size `M` using the secret-keyed HMAC slot-distribution algorithm.
-- Generates the Seed-Padded Merkle root.
+- Generates the Salted Merkle root.
 - Signs the Merkle root using the issuer's private key.
 - Shares the following with the holder:
   - The signed Merkle root.
   - The issuer's public key.
-  - The secret key `K` and array size `M`.
-  - The salt seed `S`.
+  - The secret key `K` and leaves array size `M`.
   - The dataset.
 
 ### Holder
@@ -44,7 +43,7 @@ These properties provide a deterministic and efficient basis for privacy-preserv
 - Flattens the dataset into an ordered list of claims.
 - Distributes the claims across an array of size `M` using the same HMAC slot-distribution algorithm and secret key `K`.
 - Selects the claims to disclose.
-- Generates the Seed-Padded Merkle tree verification path for the selected claims.
+- Generates the Salted Merkle tree verification path for the selected claims.
 - Shares the following with the verifier:
   - The selected claims in their dataset representation.
   - The selected claims salts and assigned slot indices.
@@ -55,7 +54,7 @@ These properties provide a deterministic and efficient basis for privacy-preserv
 
 - Flattens the relevant dataset into an ordered list of claims.
 - Hashes the disclosed claims and assigns them to their slots using the provided salts and slot indices.
-- Reconstructs the Seed-Padded Merkle root from the disclosed claims and verification path.
+- Reconstructs the Salted Merkle root from the disclosed claims and verification path.
 - Verifies the issuer's signature on the reconstructed Merkle root using the issuer's public key.
 - Accepts the disclosed claims only if signature verification.
 
