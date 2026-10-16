@@ -23,7 +23,13 @@ The tree is binary and balanced, using unique padding hashes to handle missing s
 
 These properties provide a deterministic and efficient basis for privacy-preserving selective disclosure, enabling verification of disclosed data while keeping undisclosed leaf contents and the total number of claims private, subject to the security of the underlying hash function and the confidentiality of the disclosed data itself.
 
+## Datasets
 
+Any dataset that supports a bidirectional mapping between its native representation and a flat list of canonicalized claims can be used for selective disclosure using a salted Merkle tree.
+
+A claim is an atomic, canonicalized unit of information derived from a dataset that can be independently represented, committed to, and selectively disclosed. Each claim is encoded in a deterministic canonical form so that equivalent claims produce identical representations.
+
+> Note: This document specifies algorithms for datasets represented as JSON, JSON-LD, and RDF (N-Quads).
 
 ## Actors
 
@@ -74,15 +80,6 @@ An entity that acts as a verifier in a selective disclosure protocol, responsibl
 The example shows a tree with 11 claims, padded to an even number, i.e., 12 leaves. The underlying claims for leaves 1, 2, 8, and 11 are disclosed, while the remaining claims stay private. The verification path include the hash values for nodes 3:4, 5:6, 9:10 and P2 (depth-based padding level 2), as well as leaves 7 and 12, allowing the verifier to reconstruct and verify the root.
 
 ![Example #1](example-1.svg)
-
-## Datasets
-
-Any dataset that supports a bidirectional mapping between its native representation and a flat list of canonicalized claims can be used for selective disclosure using a salted Merkle tree.
-
-A claim is an atomic, canonicalized unit of information derived from a dataset that can be independently represented, committed to, and selectively disclosed. Each claim is encoded in a deterministic canonical form so that equivalent claims produce identical representations.
-
-
-> Note: This document specifies algorithms for datasets represented as JSON, JSON-LD, and RDF (N-Quads).
 
 ## Algorithms
 
